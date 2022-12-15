@@ -65,7 +65,7 @@ jobs:
       run:
         working-directory: apps/master
     runs-on: ubuntu-latest
-    environment:
+    env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID_MASTER }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_MASTER }}
     steps:
@@ -115,7 +115,7 @@ jobs:
       run:
         working-directory: apps/akemi
     runs-on: ubuntu-latest
-    environment:
+    env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID_AKEMI }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_AKEMI }}
     needs: tomo_build
@@ -172,7 +172,7 @@ jobs:
       run:
         working-directory: apps/destiny
     runs-on: ubuntu-latest
-    environment:
+    env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID_DESTINY }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_DESTINY }}
     steps:
