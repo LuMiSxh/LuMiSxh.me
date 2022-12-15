@@ -58,7 +58,7 @@ jobs:
         with:
           name: tomo
           if-no-files-found: error
-          path: package/tomo/pkg
+          path: packages/tomo/pkg
 
   master_deploy:
     defaults:
@@ -149,7 +149,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: tomo
-          path: package/tomo/pkg
+          path: packages/tomo/pkg
 
       - name: Install Vercel CLI
         run: pnpm install --global vercel@latest
