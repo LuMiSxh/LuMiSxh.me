@@ -105,7 +105,7 @@ jobs:
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel deploy --prod --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
 
   akemi_deploy:
     defaults:
@@ -159,7 +159,7 @@ jobs:
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel deploy --prod --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
 
   destiny_deploy:
     defaults:
@@ -210,4 +210,4 @@ jobs:
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel deploy --prod --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
