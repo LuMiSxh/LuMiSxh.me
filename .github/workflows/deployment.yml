@@ -98,14 +98,16 @@ jobs:
       - name: Install Vercel CLI
         run: pnpm install --global vercel@latest
 
-      - name: Pull Vercel Environment Information
-        run: vercel pull --yes --token=${{ secrets.MASTER_VERCEL_TOKEN }}
-
-      - name: Build Project Artifacts
-        run: vercel build --prod --token=${{ secrets.MASTER_VERCEL_TOKEN }}
-
-      - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.MASTER_VERCEL_TOKEN }}
+      - name: Deploy to Production
+        uses: amondnet/vercel-action@v20
+        id: deploy-vercel-production
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID_MASTER }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_MASTER }}
+          vercel-args: '--prod'
+          scope: ${{ secrets.VERCEL_ORG_ID_MASTER }}
 
   akemi_deploy:
     defaults:
@@ -152,14 +154,16 @@ jobs:
       - name: Install Vercel CLI
         run: pnpm install --global vercel@latest
 
-      - name: Pull Vercel Environment Information
-        run: vercel pull --yes --token=${{ secrets.AKEMI_VERCEL_TOKEN }}
-
-      - name: Build Project Artifacts
-        run: vercel build --prod --token=${{ secrets.AKEMI_VERCEL_TOKEN }}
-
-      - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.AKEMI_VERCEL_TOKEN }}
+      - name: Deploy to Production
+        uses: amondnet/vercel-action@v20
+        id: deploy-vercel-production
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID_AKEMI }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_AKEMI }}
+          vercel-args: '--prod'
+          scope: ${{ secrets.VERCEL_ORG_ID_AKEMI }}
 
   destiny_deploy:
     defaults:
@@ -199,11 +203,13 @@ jobs:
       - name: Install Vercel CLI
         run: pnpm install --global vercel@latest
 
-      - name: Pull Vercel Environment Information
-        run: vercel pull --yes --token=${{ secrets.DESTINY_VERCEL_TOKEN }}
-
-      - name: Build Project Artifacts
-        run: vercel build --prod --token=${{ secrets.DESTINY_VERCEL_TOKEN }}
-
-      - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.DESTINY_VERCEL_TOKEN }}
+      - name: Deploy to Production
+        uses: amondnet/vercel-action@v20
+        id: deploy-vercel-production
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID_DESTINY }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_DESTINY }}
+          vercel-args: '--prod'
+          scope: ${{ secrets.VERCEL_ORG_ID_DESTINY }}
