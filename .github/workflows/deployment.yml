@@ -166,7 +166,11 @@ jobs:
       run:
         working-directory: apps/destiny
     runs-on: ubuntu-latest
-    steps:
+    env:
+      SECRET_CLIENT_ID: ${{ secrets.SECRET_CLIENT_ID }}
+      SECTRET_API_KEY: ${{ secrets.SECTRET_API_KEY }}
+
+    jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
