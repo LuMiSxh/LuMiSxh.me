@@ -170,7 +170,7 @@ jobs:
       SECRET_CLIENT_ID: ${{ secrets.SECRET_CLIENT_ID }}
       SECTRET_API_KEY: ${{ secrets.SECTRET_API_KEY }}
 
-    jobs:
+    steps:
       - name: Checkout
         uses: actions/checkout@v3
 
