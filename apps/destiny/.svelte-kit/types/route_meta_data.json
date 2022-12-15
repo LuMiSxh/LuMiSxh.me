@@ -1,4 +1,6 @@
 {
 	"/": [],
-	"/powerguide": []
+	"/powerguide": [
+		"src/routes/powerguide/+page.server.ts"
+	]
 }

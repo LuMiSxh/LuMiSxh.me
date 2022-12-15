@@ -26,6 +26,8 @@
  * ```
  */
 declare module '$env/static/private' {
+	export const SECRET_CLIENT_ID: string;
+	export const SECTRET_API_KEY: string;
 	export const ALLUSERSPROFILE: string;
 	export const APPDATA: string;
 	export const ChocolateyInstall: string;
@@ -75,6 +77,7 @@ declare module '$env/static/private' {
 	export const npm_package_devDependencies__tailwindcss_typography: string;
 	export const npm_package_devDependencies__typescript_eslint_eslint_plugin: string;
 	export const npm_package_devDependencies__typescript_eslint_parser: string;
+	export const npm_package_devDependencies__vitejs_plugin_basic_ssl: string;
 	export const npm_package_name: string;
 	export const npm_package_private: string;
 	export const npm_package_scripts_build: string;
@@ -141,6 +144,8 @@ declare module '$env/static/public' {
  */
 declare module '$env/dynamic/private' {
 	export const env: {
+		SECRET_CLIENT_ID: string;
+		SECTRET_API_KEY: string;
 		ALLUSERSPROFILE: string;
 		APPDATA: string;
 		ChocolateyInstall: string;
@@ -190,6 +195,7 @@ declare module '$env/dynamic/private' {
 		npm_package_devDependencies__tailwindcss_typography: string;
 		npm_package_devDependencies__typescript_eslint_eslint_plugin: string;
 		npm_package_devDependencies__typescript_eslint_parser: string;
+		npm_package_devDependencies__vitejs_plugin_basic_ssl: string;
 		npm_package_name: string;
 		npm_package_private: string;
 		npm_package_scripts_build: string;

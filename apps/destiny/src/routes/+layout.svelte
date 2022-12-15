@@ -5,7 +5,7 @@
 
 	import { page } from '$app/stores';
 	import Icon from '@iconify/svelte';
-	import { AppRail, AppRailTile, AppShell } from '@skeletonlabs/skeleton';
+	import { AppRail, AppRailTile, AppShell, LightSwitch } from '@skeletonlabs/skeleton';
 	import { appRailValue } from '@lib/stores';
 
 	function checkNumber() {
@@ -60,5 +60,10 @@
 	<!-- Router -->
 	<slot />
 	<!--/ -->
-	<svelte:fragment slot='pageFooter'>Page Footer</svelte:fragment>
+	<svelte:fragment slot='pageFooter'>
+		<div class='flex flex-row justify-around items-center bg-surface-50 dark:bg-surface-800 p-4'>
+			<LightSwitch />
+			<h4>Designed by <span class='text-primary-400'>LuMiSxh</span></h4>
+		</div>
+	</svelte:fragment>
 </AppShell>

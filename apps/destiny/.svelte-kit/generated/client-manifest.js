@@ -9,7 +9,7 @@ export const server_loads = [];
 
 export const dictionary = {
 	"/": [2],
-	"/powerguide": [3]
+	"/powerguide": [~3]
 };
 
 export const hooks = {
