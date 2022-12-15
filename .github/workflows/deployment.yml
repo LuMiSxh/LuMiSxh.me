@@ -65,6 +65,9 @@ jobs:
       run:
         working-directory: apps/master
     runs-on: ubuntu-latest
+    environment:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID_MASTER }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_MASTER }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -98,20 +101,23 @@ jobs:
       - name: Install Vercel CLI
         run: pnpm install --global vercel@latest
 
-      - name: Deploy to Production
-        uses: amondnet/vercel-action@v20
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID_MASTER }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_MASTER }}
-          vercel-args: '--prod'
-          scope: ${{ secrets.VERCEL_ORG_ID_MASTER }}
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy Project Artifacts to Vercel
+        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
 
   akemi_deploy:
     defaults:
       run:
         working-directory: apps/akemi
     runs-on: ubuntu-latest
+    environment:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID_AKEMI }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_AKEMI }}
     needs: tomo_build
     steps:
       - name: Checkout
@@ -152,20 +158,23 @@ jobs:
       - name: Install Vercel CLI
         run: pnpm install --global vercel@latest
 
-      - name: Deploy to Production
-        uses: amondnet/vercel-action@v20
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID_AKEMI }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_AKEMI }}
-          vercel-args: '--prod'
-          scope: ${{ secrets.VERCEL_ORG_ID_AKEMI }}
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy Project Artifacts to Vercel
+        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
 
   destiny_deploy:
     defaults:
       run:
         working-directory: apps/destiny
     runs-on: ubuntu-latest
+    environment:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID_DESTINY }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_DESTINY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -199,10 +208,11 @@ jobs:
       - name: Install Vercel CLI
         run: pnpm install --global vercel@latest
 
-      - name: Deploy to Production
-        uses: amondnet/vercel-action@v20
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID_DESTINY }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_DESTINY }}
-          scope: ${{ secrets.VERCEL_ORG_ID_DESTINY }}
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy Project Artifacts to Vercel
+        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
