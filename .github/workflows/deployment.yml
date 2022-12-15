@@ -205,5 +205,4 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID_DESTINY }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_DESTINY }}
-          vercel-args: '--prod'
           scope: ${{ secrets.VERCEL_ORG_ID_DESTINY }}
