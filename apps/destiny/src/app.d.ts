@@ -4,7 +4,7 @@
 declare namespace App {
 	// interface Error {}
 	interface Locals {
-		bungieCode: string
+		bungieCode: string;
 	}
 	// interface PageData {}
 	// interface Platform {}
