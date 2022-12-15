@@ -2,13 +2,13 @@
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".next/**"]
-    },
-    "lint": {
-      "outputs": []
+      "dependsOn": ["cleanup","^build"],
+      "outputs": [".svelte-kit/**"]
     },
     "dev": {
+      "cache": false
+    },
+    "cleanup": {
       "cache": false
     }
   }
