@@ -1,0 +1,7 @@
+{
+  "name": "custom-prettier",
+  "version": "1.0.0",
+  "description": "Custom prettier config for the SvelteKit projects",
+  "author": "LuMiSxh",
+  "main": "config.json"
+}
