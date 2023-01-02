@@ -25,7 +25,7 @@
 	<svelte:fragment slot='header'>
 		<AppBar class='hidden md:flex'>
 			<svelte:fragment slot='lead'>
-				<h1>LuMiSxh - Destiny</h1>
+				<h1>LuMiSxh - <span class='gradient-heading'>Destiny</span></h1>
 			</svelte:fragment>
 			<svelte:fragment slot='trail'>
 				{#each routes as route}
@@ -66,3 +66,9 @@
 	<slot />
 	<!--/ -->
 </AppShell>
+
+<style lang="postcss">
+    .gradient-heading {
+        @apply bg-gradient-to-br from-secondary-500 to-tertiary-500 bg-clip-text text-transparent box-decoration-clone;
+    }
+</style>
