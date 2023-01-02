@@ -7,7 +7,7 @@ export const GET = (async ({ url, cookies, fetch }) => {
 	const authCode = url.searchParams.get('code');
 
 	if (!authCode) {
-		throw error(500, 'The url search parameter \'code\' is required but missing');
+		throw error(500, "The url search parameter 'code' is required but missing");
 	}
 
 	// Fetch the token
@@ -15,7 +15,7 @@ export const GET = (async ({ url, cookies, fetch }) => {
 		fetch,
 		'https://www.bungie.net/Platform/App/OAuth/Token/',
 		fetchParams({
-			method: "POST",
+			method: 'POST',
 			contentType: 'application/x-www-form-urlencoded',
 			body: `client_id=${SECRET_CLIENT_ID}&grant_type=authorization_code&code=${authCode}`
 		})

@@ -8,9 +8,9 @@ declare namespace App {
 			oAuth: {
 				accessToken: string;
 				accessExpiresIn: number;
-			}
+			};
 			membershipId: number;
-		}
+		};
 	}
 	// interface PageData {}
 	// interface Platform {}

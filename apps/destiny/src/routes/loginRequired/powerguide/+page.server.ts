@@ -5,7 +5,6 @@ export const load = (async ({ parent, fetch, locals }) => {
 	// Check auth state
 	await parent();
 
-
 	/*
 	const responseMembershipInfo = await fetch(`https://www.bungie.net/Platform/User/GetMembershipsById/${locals.user.membershipId}/-1`,
 		fetchParams({})
@@ -22,7 +21,6 @@ export const load = (async ({ parent, fetch, locals }) => {
 	const membershipType = membershipInfo.data.Response.destinyMemberships[0].membershipType;
 	const membershipId = membershipInfo.data.Response.destinyMemberships[0].membershipId;
 
-
 	/*
 
 	const profileInfo = await getProfile(createHttpClient(fetch),
@@ -35,5 +33,4 @@ export const load = (async ({ parent, fetch, locals }) => {
 	console.log(profileInfo);
 
 	*/
-
 }) satisfies PageServerLoad;

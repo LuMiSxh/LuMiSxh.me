@@ -46,6 +46,3 @@ yarn-error.log*
 
 # vercel
 .vercel
-
-# pnpm
-pnpm-lock.yaml

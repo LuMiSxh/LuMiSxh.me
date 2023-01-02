@@ -4,26 +4,28 @@ import { redirect } from '@sveltejs/kit';
 
 export const handle = (async ({ event, resolve }) => {
 	// Exclude API routes
-	if (event.url.pathname.startsWith("/api")) {
+	if (event.url.pathname.startsWith('/api')) {
 		return resolve(event);
 	}
 
-
-	const oAuth = event.cookies.get("oAuth");
+	const oAuth = event.cookies.get('oAuth');
 
 	if (oAuth && !event.locals.user) {
 		const parsed = JSON.parse(oAuth);
 		event.locals.user = {
 			oAuth: {
 				accessToken: parsed.access_token,
-				accessExpiresIn: parsed.expires_in,
+				accessExpiresIn: parsed.expires_in
 			},
 			membershipId: parsed.membership_id
-		}
+		};
 	}
 
 	if (event.url.pathname.startsWith('/loginRequired') && !oAuth) {
-		throw redirect(303, `https://www.bungie.net/en/OAuth/Authorize?client_id=${SECRET_CLIENT_ID}&response_type=code`);
+		throw redirect(
+			303,
+			`https://www.bungie.net/en/OAuth/Authorize?client_id=${SECRET_CLIENT_ID}&response_type=code`
+		);
 	}
 
 	return resolve(event);
