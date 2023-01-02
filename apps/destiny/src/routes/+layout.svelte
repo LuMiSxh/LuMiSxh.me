@@ -1,69 +1,68 @@
 <script>
-	import 'shared/theme.postcss';
+	import 'shared/theme-yellow.pcss';
 	import '@skeletonlabs/skeleton/styles/all.css';
 	import '../app.postcss';
 
 	import { page } from '$app/stores';
-	import Icon from '@iconify/svelte';
-	import { AppRail, AppRailTile, AppShell, LightSwitch } from '@skeletonlabs/skeleton';
-	import { appRailValue } from '@lib/stores';
+	import { AppBar, AppShell, menu } from '@skeletonlabs/skeleton';
 
-	function checkNumber() {
-		let name = String($page.url).split('/');
-		name = name[name.length - 1];
-
-		if (name === "") {
-			return 1;
-		}
-		if (name === "powerguide") {
-			return 2;
-		}
-	}
-
-	appRailValue.set(checkNumber());
-
-	let val = 0;
-	appRailValue.subscribe(v => val = v);
+	$: routes = [
+		{
+			'Name': 'Home',
+			'Route': '/',
+			'Active': $page.url.pathname === '/'
+		},
+		{
+			'Name': 'PowerGuide',
+			'Route': '/loginRequired/powerguide',
+			'Active': $page.url.pathname === '/loginRequired/powerguide'
+		},
+	];
 
 </script>
 
 <AppShell>
-	<svelte:fragment slot='sidebarLeft'>
-		<AppRail selected={appRailValue}>
+	<svelte:fragment slot='header'>
+		<AppBar class='hidden md:flex'>
 			<svelte:fragment slot='lead'>
-				<AppRailTile tag='button'>
-					<Icon icon="mdi:anonymous-circle" width="60" />
-				</AppRailTile>
+				<h1>LuMiSxh - Destiny</h1>
 			</svelte:fragment>
-			<!--AppRail Tiles -->
-			<AppRailTile tag='a' href='/' label="Home" title="Home" value={1}>
-				{#if val === 1}
-					<Icon icon="mdi:package-variant" width="35" />
-				{:else}
-					<Icon icon="mdi:package-variant-closed" width="35" />
-				{/if}
-			</AppRailTile>
-			<AppRailTile tag='a' href='/powerguide' label="PowerGuide" title="PowerGuide" value={2}>
-				{#if val === 2}
-					<Icon icon="mdi:package-variant" width="35" />
-				{:else}
-					<Icon icon="mdi:package-variant-closed" width="35" />
-				{/if}
-			</AppRailTile>
 			<svelte:fragment slot='trail'>
-				<AppRailTile tag='a' href='https://github.com/LuMiSxh'>
-					<Icon icon="mdi:github" width="45" />
-				</AppRailTile>
+				{#each routes as route}
+					<a href={route.Route} class='btn btn-base' class:btn-ghost-surface={!route.Active}
+						 class:ring-2={route.Active} class:ring-surface-500={route.Active} class:ring-inset={route.Active}
+						 class:btn-ghost-tertiary={route.Active} disabled={route.Active}>{route.Name}</a>
+				{/each}
 			</svelte:fragment>
-		</AppRail>
+		</AppBar>
+		<AppBar class='md:hidden'>
+			<svelte:fragment slot='lead'>
+				<h1>LuMiSxh</h1>
+			</svelte:fragment>
+			<svelte:fragment slot='trail'>
+				<div class='relative'>
+					<button use:menu={{ menu: 'navigation' }}
+									class='btn btn-ghost-surface'>Navigation
+					</button>
+					<nav class='list-nav card p-4 shadow-xl' data-menu='navigation'>
+						<ul>
+							{#each routes as route}
+								<li>
+									<a href={route.Route} class='btn btn-base' class:btn-ghost-surface={!route.Active}
+										 class:ring-2={route.Active} class:ring-surface-500={route.Active} class:ring-inset={route.Active}
+										 class:btn-ghost-tertiary={route.Active} disabled={route.Active}>
+										{route.Name}
+									</a>
+								</li>
+							{/each}
+
+						</ul>
+					</nav>
+				</div>
+			</svelte:fragment>
+		</AppBar>
 	</svelte:fragment>
 	<!-- Router -->
 	<slot />
 	<!--/ -->
-	<svelte:fragment slot='pageFooter'>
-		<div class='flex flex-row justify-around items-center bg-surface-50 dark:bg-surface-800 p-4'>
-			<LightSwitch />
-			<h4>Designed by <span class='text-primary-400'>LuMiSxh</span></h4>
-		</div>
-	</svelte:fragment>
 </AppShell>

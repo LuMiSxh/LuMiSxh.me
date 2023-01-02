@@ -3,5 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "author": "LuMiSxh",
-  "theme": "theme.postcss"
+  "theme-red": "theme-red.pcss",
+  "theme-blue": "theme-blue.pcss",
+  "theme-purple": "theme-purple.pcss",
+  "theme-yellow": "theme-yellow.pcss"
 }

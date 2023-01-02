@@ -27,7 +27,7 @@
  */
 declare module '$env/static/private' {
 	export const SECRET_CLIENT_ID: string;
-	export const SECTRET_API_KEY: string;
+	export const SECRET_API_KEY: string;
 	export const ALLUSERSPROFILE: string;
 	export const APPDATA: string;
 	export const ChocolateyInstall: string;
@@ -55,6 +55,7 @@ declare module '$env/static/private' {
 	export const npm_lifecycle_event: string;
 	export const npm_lifecycle_script: string;
 	export const npm_node_execpath: string;
+	export const npm_package_dependencies_bungie_api_ts: string;
 	export const npm_package_dependencies_shared: string;
 	export const npm_package_devDependencies_autoprefixer: string;
 	export const npm_package_devDependencies_custom_prettier: string;
@@ -145,7 +146,7 @@ declare module '$env/static/public' {
 declare module '$env/dynamic/private' {
 	export const env: {
 		SECRET_CLIENT_ID: string;
-		SECTRET_API_KEY: string;
+		SECRET_API_KEY: string;
 		ALLUSERSPROFILE: string;
 		APPDATA: string;
 		ChocolateyInstall: string;
@@ -173,6 +174,7 @@ declare module '$env/dynamic/private' {
 		npm_lifecycle_event: string;
 		npm_lifecycle_script: string;
 		npm_node_execpath: string;
+		npm_package_dependencies_bungie_api_ts: string;
 		npm_package_dependencies_shared: string;
 		npm_package_devDependencies_autoprefixer: string;
 		npm_package_devDependencies_custom_prettier: string;

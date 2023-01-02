@@ -13,10 +13,9 @@
     "cleanup": "turbo run cleanup --parallel"
   },
   "devDependencies": {
-    "@skeletonlabs/skeleton": "^0.80.8",
     "eslint-config-custom": "workspace:*",
-    "prettier": "latest",
-    "turbo": "latest"
+    "prettier": "^2.8.1",
+    "turbo": "^1.6.3"
   },
   "engines": {
     "node": ">=15.0.0"

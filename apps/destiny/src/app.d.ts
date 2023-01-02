@@ -4,7 +4,13 @@
 declare namespace App {
 	// interface Error {}
 	interface Locals {
-		bungieCode: string;
+		user: {
+			oAuth: {
+				accessToken: string;
+				accessExpiresIn: number;
+			}
+			membershipId: number;
+		}
 	}
 	// interface PageData {}
 	// interface Platform {}

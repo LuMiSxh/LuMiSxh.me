@@ -168,7 +168,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SECRET_CLIENT_ID: ${{ secrets.SECRET_CLIENT_ID }}
-      SECTRET_API_KEY: ${{ secrets.SECTRET_API_KEY }}
+      SECRET_API_KEY: ${{ secrets.SECRET_API_KEY }}
 
     steps:
       - name: Checkout
