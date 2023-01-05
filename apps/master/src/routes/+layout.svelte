@@ -74,6 +74,8 @@
 	</svelte:fragment>
 	<!-- Router -->
 	<slot />
+	<!--/ -->
+	<!--Footer -->
 	<div class='w-full h-32 grid grid-cols-2 grid-rows-1 justify-around shadow-2xl shadow-surface-800 z-50 p-2'>
 		<div class='flex flex-col justify-center items-center text-center'>
 			<h4>Designed by <span class='text-secondary-500'>LuMiSxh</span></h4>
@@ -88,12 +90,8 @@
 					<a href='https://twitter.com/LuMiSchm' rel='noreferrer' target='_blank'>Twitter</a>
 					<a href='https://www.youtube.com/channel/UC4KPG6VHot-IgK7AsFxQM3g' rel='noreferrer' target='_blank'>YouTube</a>
 				</li>
-				<!-- ... -->
 			</ol>
 		</div>
 	</div>
 	<!--/ -->
-	<svelte:fragment slot='footer'>
-		<!-- Footer -->
-	</svelte:fragment>
 </AppShell>
