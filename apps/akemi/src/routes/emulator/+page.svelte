@@ -122,7 +122,7 @@
 		<h1 class="mb-2">Settings</h1>
 		<div class="grid grid-cols-2 justify-around">
 			<div use:filedrop={options} on:filedrop={loadData}
-				 class="flex flex-col items-center m-2 content-center justify-center text-center w-3/4 border-dashed border-2 border-accent-500 rounded-[8px]"
+				 class="flex flex-col items-center m-2 content-center justify-center text-center w-3/4 border-dashed border-2 border-secondary-500 rounded-[8px]"
 				 class:border-surface-800={running} class:cursor-no-drop={running}
 			>
 				Upload a ROM to play
@@ -134,12 +134,12 @@
 				<label for="colorON" class="m-2">
 					Set a color for active pixels
 					<input bind:value={colorOn} id="colorON" on:keydown disabled="{running}"
-					class='bg-surface-200 border-[2px] dark:border-none border-surface-600 dark:bg-surface-800 p-1 rounded-[8px] focus:outline-none focus:outline-accent-500'/>
+					class='bg-surface-200 border-[2px] dark:border-none border-surface-600 dark:bg-surface-800 p-1 rounded-[8px] focus:outline-none focus:outline-secondary-500'/>
 				</label>
 				<label for="colorOFF" class="m-2">
 					Set a color for inactive pixels
 					<input bind:value={colorOff} id="colorOFF" on:keydown disabled="{running}"
-							 class='bg-surface-200 border-[2px] dark:border-none border-surface-600 dark:bg-surface-800 p-1 rounded-[8px] focus:outline-none focus:outline-accent-500'/>
+							 class='bg-surface-200 border-[2px] dark:border-none border-surface-600 dark:bg-surface-800 p-1 rounded-[8px] focus:outline-none focus:outline-secondary-500'/>
 				</label>
 		</div>
 	</div>

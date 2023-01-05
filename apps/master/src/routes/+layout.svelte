@@ -4,7 +4,7 @@
 	import '../app.postcss';
 
 	import { page } from '$app/stores';
-	import { AppBar, AppShell, menu } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell, LightSwitch, menu } from '@skeletonlabs/skeleton';
 
 	$: routes = [
 		{
@@ -74,5 +74,26 @@
 	</svelte:fragment>
 	<!-- Router -->
 	<slot />
+	<div class='w-full h-32 grid grid-cols-2 grid-rows-1 justify-around shadow-2xl shadow-surface-800 z-50 p-2'>
+		<div class='flex flex-col justify-center items-center text-center'>
+			<h4>Designed by <span class='text-secondary-500'>LuMiSxh</span></h4>
+			<LightSwitch class='m-3'/>
+		</div>
+		<div class='flex flex-col justify-center items-center text-center'>
+			<h4>Social Media</h4>
+			<ol class="list">
+				<li>
+					<a href='https://www.bungie.net/7/de/User/Profile/2/4611686018492790408' rel='noreferrer' target='_blank'>Bungie</a>
+					<a href='https://github.com/LuMiSxh' rel='noreferrer' target='_blank'>Github</a>
+					<a href='https://twitter.com/LuMiSchm' rel='noreferrer' target='_blank'>Twitter</a>
+					<a href='https://www.youtube.com/channel/UC4KPG6VHot-IgK7AsFxQM3g' rel='noreferrer' target='_blank'>YouTube</a>
+				</li>
+				<!-- ... -->
+			</ol>
+		</div>
+	</div>
 	<!--/ -->
+	<svelte:fragment slot='footer'>
+		<!-- Footer -->
+	</svelte:fragment>
 </AppShell>

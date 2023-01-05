@@ -4,7 +4,7 @@
 	import '../app.postcss';
 
 	import { page } from '$app/stores';
-	import { AppBar, AppShell, menu } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell, menu, Toast } from '@skeletonlabs/skeleton';
 
 	$: routes = [
 		{
@@ -19,7 +19,24 @@
 		},
 	];
 
+	// PWA
+	import { onMount } from 'svelte'
+	import { pwaInfo } from 'virtual:pwa-info'
+
+	let ReloadPrompt
+	onMount(async () => {
+		pwaInfo && (ReloadPrompt = (await import('$lib/ReloadPrompt.svelte')).default)
+	})
+
+	$: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : ''
+
 </script>
+
+<!-- PWA -->
+<svelte:head>
+	{@html webManifest}
+</svelte:head>
+<!-- PWA -->
 
 <AppShell>
 	<svelte:fragment slot='header'>
@@ -64,6 +81,7 @@
 	</svelte:fragment>
 	<!-- Router -->
 	<slot />
+	<Toast/>
 	<!--/ -->
 </AppShell>
 
