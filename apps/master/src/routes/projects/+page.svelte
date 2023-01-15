@@ -25,8 +25,6 @@
 						</span>
 					{#if repo.Private}
 						<Icon icon='material-symbols:lock' class='ml-2' />
-					{:else}
-						<Icon icon='material-symbols:lock-open' class='ml-2' />
 					{/if}
 				</h2>
 			</header>
