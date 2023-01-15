@@ -68,6 +68,8 @@ jobs:
       run:
         working-directory: apps/master
     runs-on: ubuntu-latest
+    env:
+      SECRET_GITHUB_TOKEN: ${{ secrets.SECRET_GITHUB_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3

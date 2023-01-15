@@ -6,5 +6,6 @@
   "theme-red": "theme-red.pcss",
   "theme-blue": "theme-blue.pcss",
   "theme-purple": "theme-purple.pcss",
-  "theme-yellow": "theme-yellow.pcss"
+  "theme-yellow": "theme-yellow.pcss",
+  "codelang": "codelang.pcss"
 }

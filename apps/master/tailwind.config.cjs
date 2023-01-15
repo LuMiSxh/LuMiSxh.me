@@ -13,7 +13,7 @@ const config = {
 		require('@tailwindcss/forms'),
 		require('@tailwindcss/typography'),
 		require('@skeletonlabs/skeleton/tailwind/theme.cjs')
-	]
+	],
 };
 
 module.exports = config;
