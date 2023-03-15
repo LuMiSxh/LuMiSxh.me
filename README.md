@@ -10,17 +10,9 @@ of the website.
     - Domain: `lumisxh.me`
     - Development: `http://localhost:3000`
 - Destiny
-    - Domain: `destiny.lumisxh.me`
-    - Development: `https://localhost:3001`
+    - Domain: `yami.lumisxh.me`
+    - Development: `https://localhost:3003`
 
 - Akemi
   - Domain: `akemi.lumisxh.me`
   - Development: `http://localhost:3002`
-
-## Commit Structure
-
-Builds only get executed if the needed keyword is present inside the commit message.
-
-- AKEMI for Akemi deployment
-- DESTINY for Destiny deployment
-- MASTER for Master deployment
