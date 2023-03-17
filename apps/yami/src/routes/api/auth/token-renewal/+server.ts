@@ -10,6 +10,7 @@ function addSeconds(date: Date, seconds: number): Date {
 
 export const GET = (async ({ cookies, fetch }) => {
 	const session_cookie = cookies.get('AccessSession');
+	const auth_url = 'https://www.bungie.net/Platform/App/OAuth/Token/';
 	const auth_token = btoa(`${SECRET_CLIENT_ID}:${SECRET_CLIENT_SECRET}`);
 	const current_time = new Date();
 
@@ -24,8 +25,8 @@ export const GET = (async ({ cookies, fetch }) => {
 		return json(data);
 	}
 
-	// Access Token
-	const access_request = await fetch('https://www.bungie.net/Platform/App/OAuth/Token/', {
+	// Retrieving the new access token
+	const access_request = await fetch(auth_url, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/x-www-form-urlencoded',
@@ -34,14 +35,12 @@ export const GET = (async ({ cookies, fetch }) => {
 		},
 		body: `grant_type=refresh_token&refresh_token=${JSON.parse(session_cookie).refresh.token}`
 	});
-
 	if (access_request.status !== 200) {
 		throw error(
 			500,
 			`An error has occurred during the refreshing of the bungie access token: '${access_request.statusText}'`
 		);
 	}
-
 	const access_data = await access_request.json();
 
 	data.access.expires_at = addSeconds(new Date(), access_data.expires_in);

@@ -16,7 +16,7 @@
 <main class='h-full w-full p-5 flex flex-col justify-center items-center text-center'>
 	<h1 class='m-2.5'>Projects</h1>
 	<div class='w-full h-full grid md:grid-cols-3 grid-cols-2'>
-		{#each repositories as repo}
+		{each repositories as repo}
 		<div class='card p-4 m-2 max-h-1/12'>
 			<header class='card-header'>
 				<h2 class='flex flex-row'>
