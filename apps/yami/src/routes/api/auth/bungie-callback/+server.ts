@@ -10,14 +10,14 @@ function addSeconds(date: Date, seconds: number): Date {
 
 export const GET = (async ({ url, cookies, fetch }) => {
 	// URLs
-	const auth_url = 'https://www.bungie.net/platform/app/oauth/token/';
-	const bnet_user_url = `https://www.bungie.net/Platform/User/GetCurrentBungieNetUser/`;
+	const auth_url = 'https://bungie.net/platform/app/oauth/token/';
+	const bnet_user_url = `https://bungie.net/Platform/User/GetCurrentBungieNetUser/`;
 	const auth_code = url.searchParams.get('code');
 	const auth_token = btoa(`${SECRET_CLIENT_ID}:${SECRET_CLIENT_SECRET}`);
 
 	// Check for auth code
 	if (!auth_code) {
-		throw error(500, "The callback url is missing the 'code' query parameter.");
+		throw error(500, 'The callback url is missing the \'code\' query parameter.');
 	}
 
 	// Get access token
@@ -37,6 +37,7 @@ export const GET = (async ({ url, cookies, fetch }) => {
 		);
 	}
 	const access_data = await access_request.json();
+	console.log(access_data);
 
 	// Fetch the bungie.net user account
 	const bnet_user_response = await fetch(bnet_user_url, {
@@ -46,7 +47,7 @@ export const GET = (async ({ url, cookies, fetch }) => {
 		}
 	});
 	if (bnet_user_response.status !== 200) {
-		console.log(await bnet_user_response.text())
+		console.log(await bnet_user_response.text());
 		throw error(
 			500,
 			`Something went wrong obtaining the Bungie.net user information: '${bnet_user_response.statusText}'`
