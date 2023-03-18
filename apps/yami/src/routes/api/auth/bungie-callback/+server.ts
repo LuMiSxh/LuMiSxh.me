@@ -46,6 +46,7 @@ export const GET = (async ({ url, cookies, fetch }) => {
 		}
 	});
 	if (bnet_user_response.status !== 200) {
+		console.log(await bnet_user_response.text())
 		throw error(
 			500,
 			`Something went wrong obtaining the Bungie.net user information: '${bnet_user_response.statusText}'`
