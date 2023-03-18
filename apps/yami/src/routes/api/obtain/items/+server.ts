@@ -3,7 +3,7 @@ import { SECRET_API_KEY, SECRET_PATH } from '$env/static/private';
 import { error, json } from '@sveltejs/kit';
 import type IAccessSession from '@interfaces/IAccessSession';
 import type IItem from '@interfaces/IItem';
-import type IManifestCookie from '@interfaces/IManifestCookie';
+import type IManifestItemDefinition from '@interfaces/IManifestItemDefinition';
 
 function determine_item_type(hash: number): string {
 	switch (hash) {
@@ -58,13 +58,12 @@ export const GET = (async ({ cookies, fetch }) => {
 		throw error(500, 'No access session cookie exists');
 	}
 	const access_data = JSON.parse(access_cookie) as IAccessSession;
-	let manifest_data: IManifestCookie;
 
 	const manifest_request = await fetch(`${SECRET_PATH}/api/obtain/characters`);
 	if (manifest_request.status !== 200) {
 		throw error(500, manifest_request.statusText);
 	}
-	manifest_data = await manifest_request.json();
+	const manifest_data = await manifest_request.json() as Record<number, IManifestItemDefinition>;
 
 	// Retrieving all items
 	const items_request = await fetch(
