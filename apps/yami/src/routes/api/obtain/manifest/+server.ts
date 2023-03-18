@@ -21,9 +21,8 @@ export const GET = (async ({ cookies, fetch, setHeaders }) => {
 
 	// Set header to cache for 1 week
 	setHeaders({
-		"cache-control": "max-age=14400",
-	})
-
+		'cache-control': 'max-age=14400'
+	});
 
 	// Getting the Manifest paths
 	const manifest_path_response = await fetch('https://bungie.net/Platform/Destiny2/Manifest/', {
@@ -33,7 +32,10 @@ export const GET = (async ({ cookies, fetch, setHeaders }) => {
 		}
 	});
 	if (manifest_path_response.status !== 200) {
-		throw error(500, `There was an error fetching the manifest paths: '${manifest_path_response.statusText}'`);
+		throw error(
+			500,
+			`There was an error fetching the manifest paths: '${manifest_path_response.statusText}'`
+		);
 	}
 	const manifest_path_data = await manifest_path_response.json();
 
@@ -62,14 +64,20 @@ export const GET = (async ({ cookies, fetch, setHeaders }) => {
 
 			// Replace with new Manifest
 			// Getting the DestinyInventoryItemDefinition manifest
-			const manifest_response = await fetch(`https://bungie.net${manifest_path_data.Response.jsonWorldComponentContentPaths.en.DestinyInventoryItemDefinition}`, {
-				headers: {
-					Authorization: `Bearer ${access_data.access.token}`,
-					'X-API-Key': SECRET_API_KEY
+			const manifest_response = await fetch(
+				`https://bungie.net${manifest_path_data.Response.jsonWorldComponentContentPaths.en.DestinyInventoryItemDefinition}`,
+				{
+					headers: {
+						Authorization: `Bearer ${access_data.access.token}`,
+						'X-API-Key': SECRET_API_KEY
+					}
 				}
-			});
+			);
 			if (manifest_response.status !== 200) {
-				throw error(500, `There was an error fetching the DestinyInventoryItemDefinition manifest: '${manifest_response.statusText}'`);
+				throw error(
+					500,
+					`There was an error fetching the DestinyInventoryItemDefinition manifest: '${manifest_response.statusText}'`
+				);
 			}
 			const manifest_data = await manifest_response.json();
 
