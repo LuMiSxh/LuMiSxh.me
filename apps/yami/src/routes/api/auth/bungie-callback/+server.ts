@@ -46,7 +46,7 @@ export const GET = (async ({ url, cookies, fetch }) => {
 		}
 	});
 	if (bnet_user_response.status !== 200) {
-		throw error(500, 'Something went wrong obtaining the Bungie.net user information');
+		throw error(500, `Something went wrong obtaining the Bungie.net user information: '${bnet_user_response.statusText}'`);
 	}
 	const bnet_user_data = await bnet_user_response.json();
 
@@ -59,7 +59,7 @@ export const GET = (async ({ url, cookies, fetch }) => {
 		}
 	});
 	if (d2_user_response.status !== 200) {
-		throw error(500, 'Something went wrong obtaining the Destiny2 user information');
+		throw error(500, `Something went wrong obtaining the Destiny 2 user information: '${d2_user_response.statusText}'`);
 	}
 	const d2_user_data = await d2_user_response.json();
 

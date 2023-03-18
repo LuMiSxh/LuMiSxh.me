@@ -80,6 +80,10 @@ export const GET = (async ({ cookies, fetch }) => {
 		data.characters.push(character);
 	}
 
-	cookies.set('CharacterSession', JSON.stringify(data));
+	cookies.set('CharacterSession', JSON.stringify(data), {
+		path: '/',
+		httpOnly: true,
+		maxAge: 14_300 // 4 hours
+	});
 	return json(data);
 }) satisfies RequestHandler;
