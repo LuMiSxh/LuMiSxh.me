@@ -37,7 +37,6 @@ export const GET = (async ({ url, cookies, fetch }) => {
 		);
 	}
 	const access_data = await access_request.json();
-	console.log(access_data);
 
 	// Fetch the bungie.net user account
 	const bnet_user_response = await fetch(bnet_user_url, {
@@ -47,7 +46,8 @@ export const GET = (async ({ url, cookies, fetch }) => {
 		}
 	});
 	if (bnet_user_response.status !== 200) {
-		console.log(await bnet_user_response.text());
+		console.warn(access_data);
+		console.warn(await bnet_user_response.text());
 		throw error(
 			500,
 			`Something went wrong obtaining the Bungie.net user information: '${bnet_user_response.statusText}'`
