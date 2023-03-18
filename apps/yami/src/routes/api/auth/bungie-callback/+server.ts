@@ -10,8 +10,8 @@ function addSeconds(date: Date, seconds: number): Date {
 
 export const GET = (async ({ url, cookies, fetch }) => {
 	// URLs
-	const auth_url = 'https://bungie.net/platform/app/oauth/token/';
-	const bnet_user_url = `https://bungie.net/Platform/User/GetCurrentBungieNetUser/`;
+	const auth_url = 'https://www.bungie.net/Platform/App/OAuth/Token/';
+	const bnet_user_url = `https://www.bungie.net/Platform/User/GetCurrentBungieNetUser/`;
 	const auth_code = url.searchParams.get('code');
 	const auth_token = btoa(`${SECRET_CLIENT_ID}:${SECRET_CLIENT_SECRET}`);
 
@@ -31,7 +31,6 @@ export const GET = (async ({ url, cookies, fetch }) => {
 		body: `grant_type=authorization_code&code=${auth_code}`
 	});
 	if (access_request.status !== 200) {
-		console.warn(await access_request.text());
 		throw error(
 			500,
 			`An error has occurred during the fetching of the bungie access token: '${access_request.statusText}'`
@@ -47,8 +46,6 @@ export const GET = (async ({ url, cookies, fetch }) => {
 		}
 	});
 	if (bnet_user_response.status !== 200) {
-		console.warn(access_data);
-		console.warn(await bnet_user_response.text());
 		throw error(
 			500,
 			`Something went wrong obtaining the Bungie.net user information: '${bnet_user_response.statusText}'`
