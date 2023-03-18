@@ -5,7 +5,7 @@ import { SECRET_PATH } from '$env/static/private';
 export const load = (async ({ cookies, fetch }) => {
 	const access_session = cookies.get('AccessSession');
 	if (!access_session) {
-		throw redirect(303, '${SECRET_PATH}/api/auth/bungie-login');
+		throw redirect(303, `${SECRET_PATH}/api/auth/bungie-login`);
 	}
 
 	const access_request = await fetch(`${SECRET_PATH}/api/auth/token-renewal`);
