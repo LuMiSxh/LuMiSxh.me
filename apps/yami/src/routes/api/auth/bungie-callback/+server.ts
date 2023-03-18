@@ -31,6 +31,7 @@ export const GET = (async ({ url, cookies, fetch }) => {
 		body: `grant_type=authorization_code&code=${auth_code}`
 	});
 	if (access_request.status !== 200) {
+		console.warn(await access_request.text());
 		throw error(
 			500,
 			`An error has occurred during the fetching of the bungie access token: '${access_request.statusText}'`
