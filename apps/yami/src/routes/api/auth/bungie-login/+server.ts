@@ -1,5 +1,5 @@
-import { redirect } from '@sveltejs/kit';
 import type { RequestHandler } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import { SECRET_CLIENT_ID } from '$env/static/private';
 
 export const GET = (async () => {

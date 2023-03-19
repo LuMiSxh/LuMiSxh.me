@@ -1,6 +1,6 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import { SECRET_CLIENT_ID, SECRET_API_KEY, SECRET_CLIENT_SECRET } from '$env/static/private';
 import { error, redirect } from '@sveltejs/kit';
+import { SECRET_API_KEY, SECRET_CLIENT_ID, SECRET_CLIENT_SECRET } from '$env/static/private';
 import type IAccessSession from '@interfaces/IAccessSession';
 
 function addSeconds(date: Date, seconds: number): Date {
@@ -46,6 +46,7 @@ export const GET = (async ({ url, cookies, fetch }) => {
 		}
 	});
 	if (bnet_user_response.status !== 200) {
+		console.log(await bnet_user_response.text())
 		throw error(
 			500,
 			`Something went wrong obtaining the Bungie.net user information: '${bnet_user_response.statusText}'`
