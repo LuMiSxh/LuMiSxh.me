@@ -13,3 +13,8 @@
 	<h2>CharacterSession</h2>
 	<pre>{JSON.stringify(data.character)}</pre>
 </div>
+
+<div class="p-4">
+	<h2>LevelingData</h2>
+	<pre>{JSON.stringify(data.level)}</pre>
+</div>

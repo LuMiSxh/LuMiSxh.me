@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import { error } from '@sveltejs/kit';
 	import type IAccessSession from '@interfaces/IAccessSession';
+	import { navigating } from '$app/stores';
 
 	export let data: LayoutData;
 
@@ -38,4 +39,9 @@
 
 <h3>Expires in: {Math.floor(expires_in / 60)} Minutes and {Math.floor(expires_in % 60)} Seconds</h3>
 <p>Automatically updated</p>
-<slot />
+{#if $navigating}
+	Loading...
+	<slot />
+{:else}
+	<slot />
+{/if}

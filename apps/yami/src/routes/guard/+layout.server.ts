@@ -18,8 +18,14 @@ export const load = (async ({ cookies, fetch }) => {
 		throw error(500, character_request.statusText);
 	}
 
+	const level_request = await fetch(`${SECRET_PATH}/api/obtain/level`)
+	if (level_request.status !== 200) {
+		throw error(500, level_request.statusText);
+	}
+
 	return {
 		access: { ...(await access_request.json()) },
-		character: { ...(await character_request.json()) }
+		character: { ...(await character_request.json()) },
+		level: { ...(await level_request.json())}
 	};
 }) satisfies LayoutServerLoad;
