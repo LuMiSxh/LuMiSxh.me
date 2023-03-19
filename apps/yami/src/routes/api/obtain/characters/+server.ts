@@ -67,6 +67,7 @@ export const GET = (async ({ cookies, fetch }) => {
 			default:
 				class_name = 'Unknown';
 		}
+
 		const character: ICharacter = {
 			id: char.characterId,
 			class: class_name,

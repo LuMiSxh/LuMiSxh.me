@@ -1,6 +1,6 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import { SECRET_API_KEY, SECRET_PATH } from '$env/static/private';
 import { error, json } from '@sveltejs/kit';
+import { SECRET_API_KEY, SECRET_PATH } from '$env/static/private';
 import type IAccessSession from '@interfaces/IAccessSession';
 import type IItem from '@interfaces/IItem';
 import type IManifestItemDefinition from '@interfaces/IManifestItemDefinition';
@@ -118,7 +118,7 @@ export const GET = (async ({ cookies, fetch }) => {
 
 	for (const item_id of raw_items) {
 		const item_request = await fetch(
-			`https://bungie.net/Platform/Destiny2/${access_data.d2.type}/Profile/${access_data.d2.id}/Item/${item_id}/?components=300,307`,
+			`https://bungie.net/Platform/Destiny2/${access_data.d2.type}/Profile/${access_data.d2.id}/Item/${item_id}/?components=300`,
 			{
 				headers: {
 					Authorization: `Bearer ${access_data.access.token}`,
@@ -134,7 +134,22 @@ export const GET = (async ({ cookies, fetch }) => {
 		}
 		const item_response = await item_request.json();
 
-		const item_type = determine_item_type(item_response.Response.item.data.bucketHash);
+		const manifest_item = manifest_data[item_response.Response.item.data.itemHash];
+		const power = item_response.Response.instance.data.primaryStat.value;
+
+		let class_name;
+
+		switch (manifest_item.classType) {
+			case 0:
+				class_name = 'titan';
+				break;
+			case 1:
+				class_name = 'hunter';
+				break;
+			case 2:
+				class_name = 'warlock';
+				break;
+		}
 	}
 
 	console.log(item_data);
