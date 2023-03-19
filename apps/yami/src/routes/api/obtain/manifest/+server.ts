@@ -11,8 +11,8 @@ let cached_manifest: IItemManifestCookie | undefined;
 export const GET = (async ({ cookies, setHeaders }) => {
 	// Setting cache control
 	setHeaders({
-		"Cache-Control": "public, max-age=18000" // 5 hours
-	})
+		'Cache-Control': 'public, max-age=18000' // 5 hours
+	});
 	// Getting access session
 	const access_cookie = cookies.get('AccessSession');
 	if (!access_cookie) {
@@ -74,7 +74,10 @@ export const GET = (async ({ cookies, setHeaders }) => {
 			classType: obj.classType
 		};
 		if (obj.itemCategoryHashes) {
-			if ([2, 3, 4].includes(obj.itemCategoryHashes['0'] as number) || [45, 46, 47, 48, 49].includes(obj.itemCategoryHashes['1'] as number)) {
+			if (
+				[2, 3, 4].includes(obj.itemCategoryHashes['0'] as number) ||
+				[45, 46, 47, 48, 49].includes(obj.itemCategoryHashes['1'] as number)
+			) {
 				clean_item_manifest[item_hash] = temp_data;
 			}
 		}
@@ -89,5 +92,4 @@ export const GET = (async ({ cookies, setHeaders }) => {
 	cached_manifest = data;
 
 	return json(data);
-
 }) satisfies RequestHandler;

@@ -33,25 +33,34 @@ export const GET = (async ({ cookies, fetch, setHeaders }) => {
 	if (manifest_request.status !== 200) {
 		throw error(500, manifest_request.statusText);
 	}
-	const manifest_data = await manifest_request.json() as IItemManifestCookie;
+	const manifest_data = (await manifest_request.json()) as IItemManifestCookie;
 
 	// Fetch all item instances
-	const item_instances_request = await fetch(`https://bungie.net/Platform/Destiny2/${access_data.d2.type}/Profile/${access_data.d2.id}/?components=102,201,205,300`, {
-		headers: {
-			Authorization: `Bearer ${access_data.access.token}`,
-			'X-API-Key': SECRET_API_KEY
+	const item_instances_request = await fetch(
+		`https://bungie.net/Platform/Destiny2/${access_data.d2.type}/Profile/${access_data.d2.id}/?components=102,201,205,300`,
+		{
+			headers: {
+				Authorization: `Bearer ${access_data.access.token}`,
+				'X-API-Key': SECRET_API_KEY
+			}
 		}
-	});
+	);
 	if (item_instances_request.status !== 200) {
-		throw error(500, `There was an error fetching items from your Destiny 2 profile: '${item_instances_request.statusText}'`);
+		throw error(
+			500,
+			`There was an error fetching items from your Destiny 2 profile: '${item_instances_request.statusText}'`
+		);
 	}
-	const item_instances_data = (await item_instances_request.json()).Response.itemComponents.instances.data;
+	const item_instances_data = (await item_instances_request.json()).Response.itemComponents
+		.instances.data;
 
 	const weapon_instances: [string, number][] = [];
 	const armor_instances: [string, number][] = [];
 
 	// Looping over instances
-	for (const [instance_id, instance] of Object.entries<{ primaryStat: { statHash: number, value: number } }>(item_instances_data)) {
+	for (const [instance_id, instance] of Object.entries<{
+		primaryStat: { statHash: number; value: number };
+	}>(item_instances_data)) {
 		if (!instance.primaryStat || instance.primaryStat.value < 1600) {
 			continue;
 		}
@@ -73,25 +82,25 @@ export const GET = (async ({ cookies, fetch, setHeaders }) => {
 
 	// Setting up data collections
 	const warlock_armor: Record<string, IItem[]> = {
-		'helmet': [],
-		'gauntlet': [],
-		'chest': [],
-		'leg': [],
-		'class': []
+		helmet: [],
+		gauntlet: [],
+		chest: [],
+		leg: [],
+		class: []
 	};
 	const titan_armor: Record<string, IItem[]> = {
-		'helmet': [],
-		'gauntlet': [],
-		'chest': [],
-		'leg': [],
-		'class': []
+		helmet: [],
+		gauntlet: [],
+		chest: [],
+		leg: [],
+		class: []
 	};
 	const hunter_armor: Record<string, IItem[]> = {
-		'helmet': [],
-		'gauntlet': [],
-		'chest': [],
-		'leg': [],
-		'class': []
+		helmet: [],
+		gauntlet: [],
+		chest: [],
+		leg: [],
+		class: []
 	};
 	const kinetic_weapon: IItem[] = [];
 	const energy_weapon: IItem[] = [];
@@ -99,14 +108,20 @@ export const GET = (async ({ cookies, fetch, setHeaders }) => {
 
 	// Loop over item instances and fetch their data
 	for (const [instance_id, power] of raw_instances) {
-		const instance_response = await fetch(`https://bungie.net/Platform/Destiny2/${access_data.d2.type}/Profile/${access_data.d2.id}/Item/${instance_id}/?components=307`, {
-			headers: {
-				Authorization: `Bearer ${access_data.access.token}`,
-				'X-API-Key': SECRET_API_KEY
+		const instance_response = await fetch(
+			`https://bungie.net/Platform/Destiny2/${access_data.d2.type}/Profile/${access_data.d2.id}/Item/${instance_id}/?components=307`,
+			{
+				headers: {
+					Authorization: `Bearer ${access_data.access.token}`,
+					'X-API-Key': SECRET_API_KEY
+				}
 			}
-		});
+		);
 		if (instance_response.status !== 200) {
-			throw error(500, `There was an error fetching the item instance for '${instance_id}'_ '${instance_response.statusText}'`);
+			throw error(
+				500,
+				`There was an error fetching the item instance for '${instance_id}'_ '${instance_response.statusText}'`
+			);
 		}
 		const instance_data = await instance_response.json();
 
@@ -174,10 +189,28 @@ export const GET = (async ({ cookies, fetch, setHeaders }) => {
 		}
 	}
 
-	const weapon_add = (kinetic_weapon[0].power + energy_weapon[0].power + power_weapon[0].power);
-	const titan_add = weapon_add + (titan_armor.helmet[0].power + titan_armor.gauntlet[0].power + titan_armor.chest[0].power + titan_armor.leg[0].power + titan_armor.class[0].power);
-	const hunter_add = weapon_add + (hunter_armor.helmet[0].power + hunter_armor.gauntlet[0].power + hunter_armor.chest[0].power + hunter_armor.leg[0].power + hunter_armor.class[0].power);
-	const warlock_add = weapon_add + (warlock_armor.helmet[0].power + warlock_armor.gauntlet[0].power + warlock_armor.chest[0].power + warlock_armor.leg[0].power + warlock_armor.class[0].power);
+	const weapon_add = kinetic_weapon[0].power + energy_weapon[0].power + power_weapon[0].power;
+	const titan_add =
+		weapon_add +
+		(titan_armor.helmet[0].power +
+			titan_armor.gauntlet[0].power +
+			titan_armor.chest[0].power +
+			titan_armor.leg[0].power +
+			titan_armor.class[0].power);
+	const hunter_add =
+		weapon_add +
+		(hunter_armor.helmet[0].power +
+			hunter_armor.gauntlet[0].power +
+			hunter_armor.chest[0].power +
+			hunter_armor.leg[0].power +
+			hunter_armor.class[0].power);
+	const warlock_add =
+		weapon_add +
+		(warlock_armor.helmet[0].power +
+			warlock_armor.gauntlet[0].power +
+			warlock_armor.chest[0].power +
+			warlock_armor.leg[0].power +
+			warlock_armor.class[0].power);
 
 	const data: ILevelData = {
 		kinetic: kinetic_weapon[0],

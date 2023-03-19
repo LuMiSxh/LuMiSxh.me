@@ -17,7 +17,7 @@ export const GET = (async ({ url, cookies, fetch }) => {
 
 	// Check for auth code
 	if (!auth_code) {
-		throw error(500, 'The callback url is missing the \'code\' query parameter.');
+		throw error(500, "The callback url is missing the 'code' query parameter.");
 	}
 
 	// Get access token
@@ -49,7 +49,7 @@ export const GET = (async ({ url, cookies, fetch }) => {
 		console.log(await bnet_user_response.text(), access_data, {
 			Authorization: `Bearer ${access_data.access_token}`,
 			'X-API-Key': SECRET_API_KEY
-		})
+		});
 		throw error(
 			500,
 			`Something went wrong obtaining the Bungie.net user information: '${bnet_user_response.statusText}'`
