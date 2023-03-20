@@ -102,5 +102,5 @@ export const GET = (async ({ url, cookies, fetch }) => {
 		maxAge: access_data.refresh_expires_in
 	});
 
-	throw redirect(303, '/');
+	throw redirect(303, '/optimizer');
 }) satisfies RequestHandler;
