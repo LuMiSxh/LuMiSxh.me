@@ -38,7 +38,7 @@ export const GET = (async ({ cookies, fetch }) => {
 	if (access_request.status !== 200) {
 		throw error(
 			500,
-			`An error has occurred during the refreshing of the bungie access token: '${access_request.statusText}'`
+			`Something went wrong refreshing the bungie access token: '${access_request.statusText}'`
 		);
 	}
 	const access_data = await access_request.json();

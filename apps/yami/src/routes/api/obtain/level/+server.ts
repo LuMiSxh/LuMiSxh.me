@@ -49,7 +49,7 @@ export const GET = (async ({ cookies, fetch, setHeaders }) => {
 	if (profile_items_request.status !== 200) {
 		throw error(
 			500,
-			`There was an error fetching items from your Destiny 2 profile: '${profile_items_request.statusText}'`
+			`Something went wrong obtaining the items from your Destiny 2 profile: '${profile_items_request.statusText}'`
 		);
 	}
 	const profile_items_data = await profile_items_request.json();

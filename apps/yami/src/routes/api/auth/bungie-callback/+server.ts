@@ -33,7 +33,7 @@ export const GET = (async ({ url, cookies, fetch }) => {
 	if (access_request.status !== 200) {
 		throw error(
 			500,
-			`An error has occurred during the fetching of the bungie access token: '${access_request.statusText}'`
+			`Something went wrong obtaining the bungie access token: '${access_request.statusText}'`
 		);
 	}
 	const access_data = await access_request.json();

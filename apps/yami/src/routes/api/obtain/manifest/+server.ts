@@ -30,7 +30,7 @@ export const GET = (async ({ cookies, setHeaders }) => {
 	if (manifest_path_response.status !== 200) {
 		throw error(
 			500,
-			`There was an error fetching the manifest paths: '${manifest_path_response.statusText}'`
+			`Something went wrong obtaining the manifest paths: '${manifest_path_response.statusText}'`
 		);
 	}
 	const manifest_path_data = await manifest_path_response.json();
@@ -56,7 +56,7 @@ export const GET = (async ({ cookies, setHeaders }) => {
 	if (item_manifest_response.status !== 200) {
 		throw error(
 			500,
-			`There was an error fetching the DestinyInventoryItemLiteDefinition manifest: '${item_manifest_response.statusText}'`
+			`Something went wrong obtaining the DestinyInventoryItemLiteDefinition manifest: '${item_manifest_response.statusText}'`
 		);
 	}
 	const item_manifest_data = await item_manifest_response.json();
