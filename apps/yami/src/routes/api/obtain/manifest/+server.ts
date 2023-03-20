@@ -67,7 +67,7 @@ export const GET = (async ({ cookies, setHeaders }) => {
 		const temp_data: IManifestItemDefinition = {
 			displayProperties: {
 				name: obj.displayProperties.name,
-				icon: obj.displayProperties.icon ?? undefined
+				icon: 'https://bungie.net' + obj.displayProperties.icon ?? undefined
 			},
 			itemTypeDisplayName: obj.itemTypeDisplayName,
 			itemCategoryHashes: obj.itemCategoryHashes,

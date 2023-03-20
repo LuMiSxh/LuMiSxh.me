@@ -3,10 +3,9 @@
 </script>
 
 <main class="h-full w-full p-5 flex flex-col justify-center items-center text-center">
-	<aside class="alert alert-error">
-		<!-- Message -->
+	<aside class="alert variant-ghost-error w-1/3 h-1/3">
 		<div class="alert-message">
-			<h3>{$page.status}</h3>
+			<h1>{$page.status}</h1>
 			<p>{$page.error.message}</p>
 		</div>
 	</aside>

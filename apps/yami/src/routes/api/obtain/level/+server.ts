@@ -55,10 +55,20 @@ export const GET = (async ({ cookies, fetch, setHeaders }) => {
 	const profile_items_data = await profile_items_request.json();
 
 	// Collecting all items here
-	const item_instances: Record<string, { hash: number, instance_id: string, power: number, manifest: IManifestItemDefinition | undefined }> = {};
+	const item_instances: Record<
+		string,
+		{
+			hash: number;
+			instance_id: string;
+			power: number;
+			manifest: IManifestItemDefinition | undefined;
+		}
+	> = {};
 
 	// Adding item instances
-	for (const [instance_id, instance] of Object.entries<{ primaryStat: { value: number, statHash: number } | undefined }>(profile_items_data.Response.itemComponents.instances.data)) {
+	for (const [instance_id, instance] of Object.entries<{
+		primaryStat: { value: number; statHash: number } | undefined;
+	}>(profile_items_data.Response.itemComponents.instances.data)) {
 		if (!instance.primaryStat) continue;
 		//      Weapon      Armor
 		if (![1480404414, 3897883278].includes(instance.primaryStat.statHash)) continue;
@@ -73,14 +83,16 @@ export const GET = (async ({ cookies, fetch, setHeaders }) => {
 
 	// Overlaying hash from vault
 	for (const raw_item of profile_items_data.Response.profileInventory.data.items) {
-		const item: { itemHash: number, itemInstanceId: string } = raw_item;
+		const item: { itemHash: number; itemInstanceId: string } = raw_item;
 		if (!(item.itemInstanceId in item_instances)) continue;
 		item_instances[item.itemInstanceId].hash = item.itemHash;
 		item_instances[item.itemInstanceId].manifest = manifest_data.manifest[item.itemHash];
 	}
 
 	// Overlaying hash from character inventories
-	for (const character of Object.values<{ items: { itemHash: number, itemInstanceId: string }[] }>(profile_items_data.Response.characterInventories.data)) {
+	for (const character of Object.values<{ items: { itemHash: number; itemInstanceId: string }[] }>(
+		profile_items_data.Response.characterInventories.data
+	)) {
 		for (const item of character.items) {
 			if (!(item.itemInstanceId in item_instances)) continue;
 			item_instances[item.itemInstanceId].hash = item.itemHash;
@@ -89,7 +101,9 @@ export const GET = (async ({ cookies, fetch, setHeaders }) => {
 	}
 
 	// Overlaying hash from character equipment
-	for (const character of Object.values<{ items: { itemHash: number, itemInstanceId: string }[] }>(profile_items_data.Response.characterEquipment.data)) {
+	for (const character of Object.values<{ items: { itemHash: number; itemInstanceId: string }[] }>(
+		profile_items_data.Response.characterEquipment.data
+	)) {
 		for (const item of character.items) {
 			if (!(item.itemInstanceId in item_instances)) continue;
 			item_instances[item.itemInstanceId].hash = item.itemHash;
@@ -98,9 +112,9 @@ export const GET = (async ({ cookies, fetch, setHeaders }) => {
 	}
 
 	const raw_item_collection: Record<string, IItem[]> = {
-		'kinetic': [],
-		'energy': [],
-		'power': [],
+		kinetic: [],
+		energy: [],
+		power: [],
 		// Titan
 		'T:helmet': [],
 		'T:gauntlet': [],
@@ -222,24 +236,39 @@ export const GET = (async ({ cookies, fetch, setHeaders }) => {
 	};
 
 	// Calculations
-	const weapons_power = (data.kinetic.power + data.energy.power + data.power.power);
-	const titan_armor = (data.Titan.helmet.power + data.Titan.gauntlet.power + data.Titan.chest.power + data.Titan.leg.power + data.Titan.class.power);
-	const hunter_armor = (data.Hunter.helmet.power + data.Hunter.gauntlet.power + data.Hunter.chest.power + data.Hunter.leg.power + data.Hunter.class.power);
-	const warlock_armor = (data.Warlock.helmet.power + data.Warlock.gauntlet.power + data.Warlock.chest.power + data.Warlock.leg.power + data.Warlock.class.power);
+	const weapons_power = data.kinetic.power + data.energy.power + data.power.power;
+	const titan_armor =
+		data.Titan.helmet.power +
+		data.Titan.gauntlet.power +
+		data.Titan.chest.power +
+		data.Titan.leg.power +
+		data.Titan.class.power;
+	const hunter_armor =
+		data.Hunter.helmet.power +
+		data.Hunter.gauntlet.power +
+		data.Hunter.chest.power +
+		data.Hunter.leg.power +
+		data.Hunter.class.power;
+	const warlock_armor =
+		data.Warlock.helmet.power +
+		data.Warlock.gauntlet.power +
+		data.Warlock.chest.power +
+		data.Warlock.leg.power +
+		data.Warlock.class.power;
 
 	// Setting the calculations
 	data.Titan.power = {
 		full: Math.floor((titan_armor + weapons_power) / 8),
 		partial: (titan_armor + weapons_power) % 8
-	}
+	};
 	data.Hunter.power = {
 		full: Math.floor((hunter_armor + weapons_power) / 8),
 		partial: (hunter_armor + weapons_power) % 8
-	}
+	};
 	data.Warlock.power = {
 		full: Math.floor((warlock_armor + weapons_power) / 8),
 		partial: (warlock_armor + weapons_power) % 8
-	}
+	};
 
 	return json(data);
 }) satisfies RequestHandler;

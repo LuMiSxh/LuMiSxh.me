@@ -18,9 +18,6 @@ jobs:
       SECRET_API_KEY: ${{ secrets.SECRET_API_KEY }}
       SECRET_CLIENT_SECRET: ${{ secrets.SECRET_CLIENT_SECRET }}
       SECRET_PATH: ${{ secrets.SECRET_PATH }}
-      SECRET_DB_CONN_STRING: ${{ secrets.SECRET_DB_CONN_STRING }}
-      SECRET_DB_NAME: ${{ secrets.SECRET_DB_NAME }}
-      SECRET_MANIFEST_COLLECTION_NAME: ${{ secrets.SECRET_MANIFEST_COLLECTION_NAME }}
 
     steps:
       - name: Checkout

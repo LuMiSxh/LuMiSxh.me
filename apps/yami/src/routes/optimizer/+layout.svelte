@@ -3,13 +3,12 @@
 	import { onMount } from 'svelte';
 	import { error } from '@sveltejs/kit';
 	import type IAccessSession from '@interfaces/IAccessSession';
-	import { navigating } from '$app/stores';
 
 	export let data: LayoutData;
 
 	// Sets the initial value for the expiry time
 	let expires_in: number = Math.floor(
-		(new Date(data.access.access.expires_at).getTime() - new Date().getTime()) / 1000
+		(new Date(data['access'].access.expires_at).getTime() - new Date().getTime()) / 1000
 	);
 
 	// Automatically update it when the token expired
@@ -32,16 +31,9 @@
 		const response_data = (await response.json()) as IAccessSession;
 		data = { ...response_data };
 		expires_in = Math.floor(
-			(new Date(data.access.access.expires_at).getTime() - new Date().getTime()) / 1000
+			(new Date(data['access'].access.expires_at).getTime() - new Date().getTime()) / 1000
 		);
 	}
 </script>
 
-<h3>Expires in: {Math.floor(expires_in / 60)} Minutes and {Math.floor(expires_in % 60)} Seconds</h3>
-<p>Automatically updated</p>
-{#if $navigating}
-	Loading...
-	<slot />
-{:else}
-	<slot />
-{/if}
+<slot />
