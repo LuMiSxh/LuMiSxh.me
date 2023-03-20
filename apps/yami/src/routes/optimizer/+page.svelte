@@ -84,7 +84,7 @@
 					<img
 						alt=""
 						src={leveling.kinetic.definition.displayProperties.icon}
-						class="aspect-square sm:h-[96px] w-[64px] h-[64px] m-auto ml-2 mr-2"
+						class="aspect-square sm:w-[96px] sm:h-[96px] w-[64px] h-[64px] m-auto ml-2 mr-2"
 					/>
 				</div>
 				<div
@@ -97,7 +97,7 @@
 					<img
 						alt=""
 						src={leveling.energy.definition.displayProperties.icon}
-						class="aspect-square sm:h-[96px] w-[64px] h-[64px] m-auto ml-2 mr-2"
+						class="aspect-square sm:w-[96px] sm:h-[96px] w-[64px] h-[64px] m-auto ml-2 mr-2"
 					/>
 				</div>
 				<div
@@ -110,7 +110,7 @@
 					<img
 						alt=""
 						src={leveling.power.definition.displayProperties.icon}
-						class="aspect-square sm:h-[96px] w-[64px] h-[64px] m-auto ml-2 mr-2"
+						class="aspect-square sm:w-[96px] sm:h-[96px] w-[64px] h-[64px] m-auto ml-2 mr-2"
 					/>
 				</div>
 			</div>
