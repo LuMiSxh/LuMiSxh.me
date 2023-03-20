@@ -47,7 +47,7 @@
 	>
 		{#each characters as char, i}
 			{#if char.id === current_char.id}
-				<div class="w-[474px] h-[96px] aspect-[79/16] relative m-2 justify-end p-2 drop-shadow-md">
+				<div class="sm:w-[474px] sm:h-[96px] w-[316px] h-[64px] aspect-[79/16] relative m-2 justify-end p-2 drop-shadow-md">
 					<img
 						alt=""
 						src={char.emblem.background}
@@ -63,7 +63,7 @@
 				</div>
 			{:else}
 				<button
-					class="w-[96px] h-[96px] aspect-[1/1] m-2 justify-center drop-shadow-md"
+					class="sm:w-[96px] sm:h-[96px] w-[64px] h-[64px] aspect-[1/1] m-2 justify-center drop-shadow-md"
 					on:click={() => (current_char = characters[i])}
 				>
 					<img alt="" src={char.emblem.icon} class="h-full w-full" />
@@ -84,7 +84,7 @@
 					<img
 						alt=""
 						src={leveling.kinetic.definition.displayProperties.icon}
-						class="aspect-square w-[96px] h-[96px] m-auto ml-2 mr-2"
+						class="aspect-square sm:h-[96px] w-[64px] h-[64px] m-auto ml-2 mr-2"
 					/>
 				</div>
 				<div
@@ -97,7 +97,7 @@
 					<img
 						alt=""
 						src={leveling.energy.definition.displayProperties.icon}
-						class="aspect-square w-[96px] h-[96px] m-auto ml-2 mr-2"
+						class="aspect-square sm:h-[96px] w-[64px] h-[64px] m-auto ml-2 mr-2"
 					/>
 				</div>
 				<div
@@ -110,7 +110,7 @@
 					<img
 						alt=""
 						src={leveling.power.definition.displayProperties.icon}
-						class="aspect-square w-[96px] h-[96px] m-auto ml-2 mr-2"
+						class="aspect-square sm:h-[96px] w-[64px] h-[64px] m-auto ml-2 mr-2"
 					/>
 				</div>
 			</div>
@@ -123,7 +123,7 @@
 					<img
 						alt=""
 						src={current_char_armor.helmet.definition.displayProperties.icon}
-						class="aspect-square w-[96px] h-[96px] m-auto ml-2 mr-2"
+						class="aspect-square sm:w-[96px] sm:h-[96px] w-[64px] h-[64px] m-auto ml-2 mr-2"
 					/>
 				</div>
 				<div class="flex flex-row justify-center content-center text-center m-2.5 drop-shadow-md">
@@ -134,7 +134,7 @@
 					<img
 						alt=""
 						src={current_char_armor.gauntlet.definition.displayProperties.icon}
-						class="aspect-square w-[96px] h-[96px] m-auto ml-2 mr-2"
+						class="aspect-square sm:w-[96px] sm:h-[96px] w-[64px] h-[64px] m-auto ml-2 mr-2"
 					/>
 				</div>
 				<div class="flex flex-row justify-center content-center text-center m-2.5 drop-shadow-md">
@@ -145,7 +145,7 @@
 					<img
 						alt=""
 						src={current_char_armor.chest.definition.displayProperties.icon}
-						class="aspect-square w-[96px] h-[96px] m-auto ml-2 mr-2"
+						class="aspect-square sm:w-[96px] sm:h-[96px] w-[64px] h-[64px] m-auto ml-2 mr-2"
 					/>
 				</div>
 				<div class="flex flex-row justify-center content-center text-center m-2.5 drop-shadow-md">
@@ -156,7 +156,7 @@
 					<img
 						alt=""
 						src={current_char_armor.leg.definition.displayProperties.icon}
-						class="aspect-square w-[96px] h-[96px] m-auto ml-2 mr-2"
+						class="aspect-square sm:w-[96px] sm:h-[96px] w-[64px] h-[64px] m-auto ml-2 mr-2"
 					/>
 				</div>
 				<div class="flex flex-row justify-center content-center text-center m-2.5 drop-shadow-md">
@@ -167,7 +167,7 @@
 					<img
 						alt=""
 						src={current_char_armor.class.definition.displayProperties.icon}
-						class="aspect-square w-[96px] h-[96px] m-auto ml-2 mr-2"
+						class="aspect-square sm:w-[96px] sm:h-[96px] w-[64px] h-[64px] m-auto ml-2 mr-2"
 					/>
 				</div>
 			</div>
