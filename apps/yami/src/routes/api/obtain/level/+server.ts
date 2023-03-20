@@ -3,14 +3,15 @@ import { error, json } from '@sveltejs/kit';
 import { SECRET_API_KEY, SECRET_PATH } from '$env/static/private';
 import type IAccessSession from '@interfaces/IAccessSession';
 import type IItemManifestCookie from '@interfaces/IItemManifestCookie';
+import type IManifestItemDefinition from '@interfaces/IManifestItemDefinition';
 import type IItem from '@interfaces/IItem';
 import type ILevelData from '@interfaces/ILevelData';
 
 // sorting function
-function power_sorter(a: [string, number], b: [string, number]): number {
-	if (a[1] > b[1]) {
+function power_sorter(a: IItem, b: IItem): number {
+	if (a.power > b.power) {
 		return -1;
-	} else if (a[1] < b[1]) {
+	} else if (a.power < b.power) {
 		return 1;
 	}
 	return 0;
@@ -35,8 +36,8 @@ export const GET = (async ({ cookies, fetch, setHeaders }) => {
 	}
 	const manifest_data = (await manifest_request.json()) as IItemManifestCookie;
 
-	// Fetch all item instances
-	const item_instances_request = await fetch(
+	// Fetch all profile items
+	const profile_items_request = await fetch(
 		`https://bungie.net/Platform/Destiny2/${access_data.d2.type}/Profile/${access_data.d2.id}/?components=102,201,205,300`,
 		{
 			headers: {
@@ -45,211 +46,200 @@ export const GET = (async ({ cookies, fetch, setHeaders }) => {
 			}
 		}
 	);
-	if (item_instances_request.status !== 200) {
+	if (profile_items_request.status !== 200) {
 		throw error(
 			500,
-			`There was an error fetching items from your Destiny 2 profile: '${item_instances_request.statusText}'`
+			`There was an error fetching items from your Destiny 2 profile: '${profile_items_request.statusText}'`
 		);
 	}
-	const item_instances_data = (await item_instances_request.json()).Response.itemComponents
-		.instances.data;
+	const profile_items_data = await profile_items_request.json();
 
-	const weapon_instances: [string, number][] = [];
-	const armor_instances: [string, number][] = [];
+	// Collecting all items here
+	const item_instances: Record<string, { hash: number, instance_id: string, power: number, manifest: IManifestItemDefinition | undefined }> = {};
 
-	// Looping over instances
-	for (const [instance_id, instance] of Object.entries<{
-		primaryStat: { statHash: number; value: number };
-	}>(item_instances_data)) {
-		if (!instance.primaryStat || instance.primaryStat.value < 1600) {
-			continue;
-		}
+	// Adding item instances
+	for (const [instance_id, instance] of Object.entries<{ primaryStat: { value: number, statHash: number } | undefined }>(profile_items_data.Response.itemComponents.instances.data)) {
+		if (!instance.primaryStat) continue;
+		//      Weapon      Armor
+		if (![1480404414, 3897883278].includes(instance.primaryStat.statHash)) continue;
 
-		// Add to armor or weapon depending on hash
-		switch (instance.primaryStat.statHash) {
-			case 3897883278:
-				armor_instances.push([instance_id, instance.primaryStat.value]);
-				break;
-			case 1480404414:
-				weapon_instances.push([instance_id, instance.primaryStat.value]);
-				break;
+		item_instances[instance_id] = {
+			hash: 0,
+			instance_id: instance_id,
+			power: instance.primaryStat.value,
+			manifest: undefined
+		};
+	}
+
+	// Overlaying hash from vault
+	for (const raw_item of profile_items_data.Response.profileInventory.data.items) {
+		const item: { itemHash: number, itemInstanceId: string } = raw_item;
+		if (!(item.itemInstanceId in item_instances)) continue;
+		item_instances[item.itemInstanceId].hash = item.itemHash;
+		item_instances[item.itemInstanceId].manifest = manifest_data.manifest[item.itemHash];
+	}
+
+	// Overlaying hash from character inventories
+	for (const character of Object.values<{ items: { itemHash: number, itemInstanceId: string }[] }>(profile_items_data.Response.characterInventories.data)) {
+		for (const item of character.items) {
+			if (!(item.itemInstanceId in item_instances)) continue;
+			item_instances[item.itemInstanceId].hash = item.itemHash;
+			item_instances[item.itemInstanceId].manifest = manifest_data.manifest[item.itemHash];
 		}
 	}
-	// Sort them and take only slices | put them together
-	const raw_instances: [string, number][] = [];
-	raw_instances.push(...weapon_instances.sort(power_sorter).slice(0, 30));
-	raw_instances.push(...armor_instances.sort(power_sorter).slice(0, 50));
 
-	// Setting up data collections
-	const warlock_armor: Record<string, IItem[]> = {
-		helmet: [],
-		gauntlet: [],
-		chest: [],
-		leg: [],
-		class: []
-	};
-	const titan_armor: Record<string, IItem[]> = {
-		helmet: [],
-		gauntlet: [],
-		chest: [],
-		leg: [],
-		class: []
-	};
-	const hunter_armor: Record<string, IItem[]> = {
-		helmet: [],
-		gauntlet: [],
-		chest: [],
-		leg: [],
-		class: []
-	};
-	const kinetic_weapon: IItem[] = [];
-	const energy_weapon: IItem[] = [];
-	const power_weapon: IItem[] = [];
-
-	// Loop over item instances and fetch their data
-	for (const [instance_id, power] of raw_instances) {
-		const instance_response = await fetch(
-			`https://bungie.net/Platform/Destiny2/${access_data.d2.type}/Profile/${access_data.d2.id}/Item/${instance_id}/?components=307`,
-			{
-				headers: {
-					Authorization: `Bearer ${access_data.access.token}`,
-					'X-API-Key': SECRET_API_KEY
-				}
-			}
-		);
-		if (instance_response.status !== 200) {
-			throw error(
-				500,
-				`There was an error fetching the item instance for '${instance_id}'_ '${instance_response.statusText}'`
-			);
+	// Overlaying hash from character equipment
+	for (const character of Object.values<{ items: { itemHash: number, itemInstanceId: string }[] }>(profile_items_data.Response.characterEquipment.data)) {
+		for (const item of character.items) {
+			if (!(item.itemInstanceId in item_instances)) continue;
+			item_instances[item.itemInstanceId].hash = item.itemHash;
+			item_instances[item.itemInstanceId].manifest = manifest_data.manifest[item.itemHash];
 		}
-		const instance_data = await instance_response.json();
+	}
 
-		// Fetching manifest results for it
-		const manifest_instance = manifest_data.manifest[instance_data.Response.item.data.itemHash];
-
-		if (!manifest_instance) {
-			continue;
-		}
-
-		// Getting the type of weapon / armor the instance belongs to
-		let type = '';
-		switch (manifest_instance.itemCategoryHashes['0']) {
+	const raw_item_collection: Record<string, IItem[]> = {
+		'kinetic': [],
+		'energy': [],
+		'power': [],
+		// Titan
+		'T:helmet': [],
+		'T:gauntlet': [],
+		'T:chest': [],
+		'T:leg': [],
+		'T:class': [],
+		// Hunter
+		'H:helmet': [],
+		'H:gauntlet': [],
+		'H:chest': [],
+		'H:leg': [],
+		'H:class': [],
+		// Warlock
+		'W:helmet': [],
+		'W:gauntlet': [],
+		'W:chest': [],
+		'W:leg': [],
+		'W:class': []
+	};
+	// Sorting into collection
+	for (const item of Object.values(item_instances)) {
+		// Determining the category
+		let category = '';
+		switch (item.manifest?.itemCategoryHashes['0']) {
 			case 2:
-				type = 'kinetic';
+				category = 'kinetic';
 				break;
 			case 3:
-				type = 'energy';
+				category = 'energy';
 				break;
 			case 4:
-				type = 'power';
+				category = 'power';
 				break;
 			default: {
-				switch (manifest_instance.itemCategoryHashes['1']) {
+				switch (item.manifest?.itemCategoryHashes['1']) {
 					case 45:
-						type = 'helmet';
+						category = 'helmet';
 						break;
 					case 46:
-						type = 'gauntlet';
+						category = 'gauntlet';
 						break;
 					case 47:
-						type = 'chest';
+						category = 'chest';
 						break;
 					case 48:
-						type = 'leg';
+						category = 'leg';
 						break;
 					case 49:
-						type = 'class';
+						category = 'class';
 						break;
 				}
 			}
 		}
 
-		const instance_information = { definition: manifest_instance, power: power };
-		// Safe the information acquired in the dependant collection
-		switch (manifest_instance.classType) {
-			case 0: // Titan
-				titan_armor[type].push(instance_information);
-				break;
-			case 1: // Hunter
-				hunter_armor[type].push(instance_information);
-				break;
-			case 2: // Warlock
-				warlock_armor[type].push(instance_information);
-				break;
-			default: {
-				if (type === 'kinetic') {
-					kinetic_weapon.push(instance_information);
-				} else if (type === 'energy') {
-					energy_weapon.push(instance_information);
-				} else {
-					power_weapon.push(instance_information);
-				}
+		// Determining the class, if there is one
+		let class_type = '';
+		if (!['kinetic', 'energy', 'power'].includes(category)) {
+			switch (item.manifest?.classType) {
+				case 0: // Titan
+					class_type = 'T:';
+					break;
+				case 1: // Hunter
+					class_type = 'H:';
+					break;
+				case 2: // Warlock
+					class_type = 'W:';
+					break;
 			}
 		}
+
+		// Adding it into their respective categories
+		raw_item_collection[`${class_type}${category}`].push({
+			definition: item.manifest as IManifestItemDefinition,
+			power: item.power
+		});
 	}
 
-	const weapon_add = kinetic_weapon[0].power + energy_weapon[0].power + power_weapon[0].power;
-	const titan_add =
-		weapon_add +
-		(titan_armor.helmet[0].power +
-			titan_armor.gauntlet[0].power +
-			titan_armor.chest[0].power +
-			titan_armor.leg[0].power +
-			titan_armor.class[0].power);
-	const hunter_add =
-		weapon_add +
-		(hunter_armor.helmet[0].power +
-			hunter_armor.gauntlet[0].power +
-			hunter_armor.chest[0].power +
-			hunter_armor.leg[0].power +
-			hunter_armor.class[0].power);
-	const warlock_add =
-		weapon_add +
-		(warlock_armor.helmet[0].power +
-			warlock_armor.gauntlet[0].power +
-			warlock_armor.chest[0].power +
-			warlock_armor.leg[0].power +
-			warlock_armor.class[0].power);
-
+	// Final collection
 	const data: ILevelData = {
-		kinetic: kinetic_weapon[0],
-		energy: energy_weapon[0],
-		power: power_weapon[0],
+		kinetic: raw_item_collection.kinetic.sort(power_sorter)[0],
+		energy: raw_item_collection.energy.sort(power_sorter)[0],
+		power: raw_item_collection.power.sort(power_sorter)[0],
+		// Titan
 		Titan: {
-			helmet: titan_armor.helmet[0],
-			gauntlet: titan_armor.gauntlet[0],
-			chest: titan_armor.chest[0],
-			leg: titan_armor.leg[0],
-			class: titan_armor.class[0],
+			helmet: raw_item_collection['T:helmet'].sort(power_sorter)[0],
+			gauntlet: raw_item_collection['T:gauntlet'].sort(power_sorter)[0],
+			chest: raw_item_collection['T:chest'].sort(power_sorter)[0],
+			leg: raw_item_collection['T:leg'].sort(power_sorter)[0],
+			class: raw_item_collection['T:class'].sort(power_sorter)[0],
 			power: {
-				full: Math.floor(titan_add / 8),
-				partial: titan_add % 8
+				full: 0,
+				partial: 0
 			}
 		},
+		// Hunter
 		Hunter: {
-			helmet: hunter_armor.helmet[0],
-			gauntlet: hunter_armor.gauntlet[0],
-			chest: hunter_armor.chest[0],
-			leg: hunter_armor.leg[0],
-			class: hunter_armor.class[0],
+			helmet: raw_item_collection['H:helmet'].sort(power_sorter)[0] ?? 0,
+			gauntlet: raw_item_collection['H:gauntlet'].sort(power_sorter)[0] ?? 0,
+			chest: raw_item_collection['H:chest'].sort(power_sorter)[0] ?? 0,
+			leg: raw_item_collection['H:leg'].sort(power_sorter)[0] ?? 0,
+			class: raw_item_collection['H:class'].sort(power_sorter)[0] ?? 0,
 			power: {
-				full: Math.floor(hunter_add / 8),
-				partial: hunter_add % 8
+				full: 0,
+				partial: 0
 			}
 		},
+		// Warlock
 		Warlock: {
-			helmet: warlock_armor.helmet[0],
-			gauntlet: warlock_armor.gauntlet[0],
-			chest: warlock_armor.chest[0],
-			leg: warlock_armor.leg[0],
-			class: warlock_armor.class[0],
+			helmet: raw_item_collection['W:helmet'].sort(power_sorter)[0] ?? 0,
+			gauntlet: raw_item_collection['W:gauntlet'].sort(power_sorter)[0] ?? 0,
+			chest: raw_item_collection['W:chest'].sort(power_sorter)[0] ?? 0,
+			leg: raw_item_collection['W:leg'].sort(power_sorter)[0] ?? 0,
+			class: raw_item_collection['W:class'].sort(power_sorter)[0] ?? 0,
 			power: {
-				full: Math.floor(warlock_add / 8),
-				partial: warlock_add % 8
+				full: 0,
+				partial: 0
 			}
 		}
 	};
+
+	// Calculations
+	const weapons_power = (data.kinetic.power + data.energy.power + data.power.power);
+	const titan_armor = (data.Titan.helmet.power + data.Titan.gauntlet.power + data.Titan.chest.power + data.Titan.leg.power + data.Titan.class.power);
+	const hunter_armor = (data.Hunter.helmet.power + data.Hunter.gauntlet.power + data.Hunter.chest.power + data.Hunter.leg.power + data.Hunter.class.power);
+	const warlock_armor = (data.Warlock.helmet.power + data.Warlock.gauntlet.power + data.Warlock.chest.power + data.Warlock.leg.power + data.Warlock.class.power);
+
+	// Setting the calculations
+	data.Titan.power = {
+		full: Math.floor((titan_armor + weapons_power) / 8),
+		partial: (titan_armor + weapons_power) % 8
+	}
+	data.Hunter.power = {
+		full: Math.floor((hunter_armor + weapons_power) / 8),
+		partial: (hunter_armor + weapons_power) % 8
+	}
+	data.Warlock.power = {
+		full: Math.floor((warlock_armor + weapons_power) / 8),
+		partial: (warlock_armor + weapons_power) % 8
+	}
 
 	return json(data);
 }) satisfies RequestHandler;

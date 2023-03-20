@@ -16,7 +16,6 @@ interface ILevelData {
 					partial: number;
 				};
 		  }
-		| undefined;
 	Hunter:
 		| {
 				helmet: IItem;
@@ -29,7 +28,6 @@ interface ILevelData {
 					partial: number;
 				};
 		  }
-		| undefined;
 	Warlock:
 		| {
 				helmet: IItem;
@@ -42,7 +40,6 @@ interface ILevelData {
 					partial: number;
 				};
 		  }
-		| undefined;
 }
 
 export default ILevelData;
