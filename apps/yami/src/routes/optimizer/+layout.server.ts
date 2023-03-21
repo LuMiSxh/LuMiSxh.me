@@ -7,7 +7,7 @@ export const load = (async ({ cookies, fetch }) => {
 	if (!access_session) {
 		throw redirect(303, `${SECRET_PATH}/api/auth/bungie-login`);
 	}
-
+console.log(access—session)
 	if (!cookies.get("AccessSession")) {
 		throw error(500, "The cookie for 'AccessSession' is not available.")
 	}
@@ -16,7 +16,7 @@ export const load = (async ({ cookies, fetch }) => {
 	if (access_request.status !== 200) {
 		throw error(500, access_request.statusText);
 	}
-
+console.log(access_request)
 	const character_request = await fetch(`${SECRET_PATH}/api/obtain/characters`);
 	if (character_request.status !== 200) {
 		throw error(500, character_request.statusText);
@@ -26,7 +26,7 @@ export const load = (async ({ cookies, fetch }) => {
 	if (level_request.status !== 200) {
 		throw error(500, level_request.statusText);
 	}
-
+console.log(level_request)
 	return {
 		access: { ...(await access_request.json()) },
 		character: { ...(await character_request.json()) },
