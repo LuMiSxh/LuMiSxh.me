@@ -7,7 +7,7 @@ export const load = (async ({ cookies, fetch }) => {
 	if (!access_session) {
 		throw redirect(303, `${SECRET_PATH}/api/auth/bungie-login`);
 	}
-console.log(access—session)
+console.log(access_session)
 	if (!cookies.get("AccessSession")) {
 		throw error(500, "The cookie for 'AccessSession' is not available.")
 	}
