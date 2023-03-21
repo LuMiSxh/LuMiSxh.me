@@ -17,11 +17,7 @@ function power_sorter(a: IItem, b: IItem): number {
 	return 0;
 }
 
-export const GET = (async ({ cookies, fetch, setHeaders }) => {
-	// Setting cache control
-	setHeaders({
-		'Cache-Control': 'public, max-age=180 ' // 3 minutes
-	});
+export const GET = (async ({ cookies, fetch }) => {
 	// Getting the access session
 	const access_cookie = cookies.get('AccessSession');
 	if (!access_cookie) {
