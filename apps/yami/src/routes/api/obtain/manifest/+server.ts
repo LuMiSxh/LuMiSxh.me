@@ -8,11 +8,7 @@ import type IItemManifestCookie from '@interfaces/IItemManifestCookie';
 // CACHE
 let cached_manifest: IItemManifestCookie | undefined;
 
-export const GET = (async ({ cookies, setHeaders }) => {
-	// Setting cache control
-	setHeaders({
-		'Cache-Control': 'public, max-age=18000' // 5 hours
-	});
+export const GET = (async ({ cookies }) => {
 	// Getting access session
 	const access_cookie = cookies.get('AccessSession');
 	if (!access_cookie) {
