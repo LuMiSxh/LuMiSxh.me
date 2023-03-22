@@ -38,6 +38,8 @@ export const GET = (async ({ url, cookies, fetch }) => {
 	}
 	const access_data = await access_request.json();
 
+	console.warn(access_data);
+
 	// Fetch the bungie.net user account
 	const bnet_user_response = await fetch(bnet_user_url, {
 		headers: {
@@ -56,6 +58,8 @@ export const GET = (async ({ url, cookies, fetch }) => {
 		);
 	}
 	const bnet_user_data = await bnet_user_response.json();
+
+	console.warn(bnet_user_data);
 
 	// Fetch the destiny2 user account
 	const d2_user_url = `https://www.bungie.net/Platform/Destiny2/254/Profile/${bnet_user_data.Response.membershipId}/LinkedProfiles/`;
