@@ -4,6 +4,9 @@
 declare namespace App {
 	// interface Locals {}
 	// interface PageData {}
-	// interface Error {}
+	interface Error {
+		message: string;
+		errorId: string;
+	}
 	// interface Platform {}
 }

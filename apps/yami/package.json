@@ -33,6 +33,9 @@
 	"type": "module",
 	"dependencies": {
 		"@floating-ui/dom": "^1.2.5",
+		"@sentry/node": "^7.44.2",
+		"@sentry/svelte": "^7.44.2",
+		"@sentry/tracing": "^7.44.2",
 		"shared": "workspace:^1.0.0"
 	}
 }
