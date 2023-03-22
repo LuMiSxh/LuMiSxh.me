@@ -18,7 +18,7 @@ export const GET = (async ({ cookies, fetch }) => {
 		throw error(500, 'No access session cookie exists');
 	}
 
-	console.warn(session_cookie)
+	console.warn(session_cookie);
 
 	const data: IAccessSession = JSON.parse(session_cookie) as IAccessSession;
 

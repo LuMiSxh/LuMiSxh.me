@@ -15,7 +15,10 @@ SentryNode.setTag('svelteKit', 'server');
 export const handleError = (({ error, event }) => {
 	SentryNode.captureException(error, { contexts: { sveltekit: { event } } });
 
+	const error_id = crypto.randomUUID();
+
 	return {
-		message: error.message,
+		message: (error as { message: string }).message,
+		error_id
 	};
 }) satisfies HandleServerError;
