@@ -25,6 +25,8 @@ export const GET = (async ({ cookies, fetch }) => {
 	}
 	const access_data = JSON.parse(access_cookie) as IAccessSession;
 
+	console.warn(access_data)
+
 	// Getting the manifest
 	const manifest_request = await fetch(`${SECRET_PATH}/api/obtain/manifest`);
 	if (manifest_request.status !== 200) {
