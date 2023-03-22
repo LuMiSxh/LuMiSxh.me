@@ -30,7 +30,10 @@ export const GET = (async ({ cookies, fetch }) => {
 		}
 	});
 	if (character_request.status !== 200) {
-		throw error(500, `Something went wrong obtaining the Destiny2 character information: '${character_request.statusText}'`);
+		throw error(
+			500,
+			`Something went wrong obtaining the Destiny2 character information: '${character_request.statusText}'`
+		);
 	}
 	const character_data = await character_request.json();
 

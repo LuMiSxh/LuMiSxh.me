@@ -47,7 +47,9 @@
 	>
 		{#each characters as char, i}
 			{#if char.id === current_char.id}
-				<div class="sm:w-[474px] sm:h-[96px] w-[316px] h-[64px] aspect-[79/16] relative m-2 justify-end p-2 drop-shadow-md">
+				<div
+					class="sm:w-[474px] sm:h-[96px] w-[316px] h-[64px] aspect-[79/16] relative m-2 justify-end p-2 drop-shadow-md"
+				>
 					<img
 						alt=""
 						src={char.emblem.background}

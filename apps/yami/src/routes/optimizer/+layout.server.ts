@@ -1,5 +1,5 @@
 import type { LayoutServerLoad } from './$types';
-import { error, json, redirect } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import { SECRET_PATH } from '$env/static/private';
 
 export const load = (async ({ cookies, fetch }) => {
@@ -7,16 +7,16 @@ export const load = (async ({ cookies, fetch }) => {
 	if (!access_session) {
 		throw redirect(303, `${SECRET_PATH}/api/auth/bungie-login`);
 	}
-console.log(access_session, "\n\n")
-	if (!cookies.get("AccessSession")) {
-		throw error(500, "The cookie for 'AccessSession' is not available.")
+
+	if (!cookies.get('AccessSession')) {
+		throw error(500, "The cookie for 'AccessSession' is not available.");
 	}
 
 	const access_request = await fetch(`${SECRET_PATH}/api/auth/token-renewal`);
 	if (access_request.status !== 200) {
 		throw error(500, access_request.statusText);
 	}
-console.log(access_request, "\n\n")
+
 	const character_request = await fetch(`${SECRET_PATH}/api/obtain/characters`);
 	if (character_request.status !== 200) {
 		throw error(500, character_request.statusText);
@@ -26,7 +26,7 @@ console.log(access_request, "\n\n")
 	if (level_request.status !== 200) {
 		throw error(500, level_request.statusText);
 	}
-console.log(level_request, "\n\n")
+
 	return {
 		access: { ...(await access_request.json()) },
 		character: { ...(await character_request.json()) },
